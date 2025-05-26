@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>باشا المجال</title>
+  <style>
+    body {
+      font-size: 24px; /* حجم النص العام */
+      font-family: Arial, sans-serif;
+    }
+    
+    h1 {
+      font-size: 32px; /* عناوين أكبر */
+      color: #0066cc;
+    }
+    
+    a {
+      font-size: 26px; /* روابط أكبر */
+      text-decoration: none;
+    }
+    
+    ul, ol {
+      font-size: 22px; /* تكبير النص في القوائم */
+    }
+  </style>
+</head>
+<body>
+  <h1>السلام عليكم ورحمة الله وبركاته</h1>
+  <h1>...... اهلا بكم فى مدونة الشيخ ثروت بيه</h1>
+  
+  <a href="https://youtube.com" target="_blank">
+    اضغط هنا لقناتي على يوتيوب!
+  </a>
+</body>
+</html>
