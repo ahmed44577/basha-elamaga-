@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المرشد الشامل لبرمجة إنفرتر Kinco CV20 - أحمد ثروت محمود</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #2c3e50;
+            position: relative;
+        }
+        
+        .logo {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 2.5rem;
+            color: #667eea;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            color: #3498db;
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ecf0f1;
+            font-size: 1.8rem;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin: 20px 0 10px;
+            font-size: 1.4rem;
+        }
+        
+        h4 {
+            color: #16a085;
+            margin: 15px 0 8px;
+            font-size: 1.2rem;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            border-right: 5px solid #3498db;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .step-box {
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-right: 4px solid #2ecc71;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .note {
+            background-color: #fffde7;
+            border-right: 4px solid #f1c40f;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .warning {
+            background-color: #ffebee;
+            border-right: 4px solid #e74c3c;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+        
+        .success {
+            background-color: #e8f5e9;
+            border-right: 4px solid #27ae60;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .code-box {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-size: 1rem;
+            border-left: 4px solid #667eea;
+        }
+        
+        .parameter {
+            background-color: #e3f2fd;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-right: 3px solid #1976d2;
+            transition: all 0.3s;
+        }
+        
+        .parameter:hover {
+            background-color: #bbdefb;
+            transform: translateX(-5px);
+        }
+        
+        .parameter code {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        
+        .contact-box {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .contact-box h3 {
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+        
+        .btn-whatsapp:hover {
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+        }
+        
+        .btn-linkedin {
+            background: linear-gradient(135deg, #0077B5, #005582);
+            box-shadow: 0 4px 15px rgba(0, 119, 181, 0.4);
+        }
+        
+        .btn-linkedin:hover {
+            box-shadow: 0 6px 20px rgba(0, 119, 181, 0.6);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #7f8c8d;
+        }
+        
+        .diagram {
+            text-align: center;
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 2px dashed #3498db;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            min-width: 600px;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+        
+        .expert-badge {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin: 10px 0;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                display: block;
+                margin: 10px auto;
+                width: 90%;
+            }
+            
+            .logo {
+                position: relative;
+                margin-bottom: 10px;
+            }
+        }
+        
+        .author-info {
+            background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid #e2d1c3;
+        }
+        
+        .author-name {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .author-title {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">⚡</div>
+            <h1>المرشد الشامل لبرمجة وتشغيل انفرتر Kinco CV20</h1>
+            <p class="subtitle">شرح مبسط لكل خطوة - من التوصيل للبرمجة للربط مع PLC</p>
+            
+            <div class="author-info">
+                <div class="author-name">أحمد ثروت محمود</div>
+                <div class="author-title">أخصائي تحكم آلي وبرمجة إنفرترات</div>
+                <p>خبرة 10+ سنوات في أنظمة التحكم الصناعي والكهرباء</p>
+            </div>
+            
+            <div class="expert-badge">متخصص في: إنفرترات - PLC - أنظمة التحكم - الكهرباء الصناعية</div>
+        </header>
+        
+        <div class="section">
+            <h2>📌 الجزء الأول: إيه هو الإنفرتر؟ ولية بنستخدمه؟</h2>
+            
+            <div class="step-box">
+                <h3><span class="step-number">1</span> الإنفرتر إيه بالظبط؟</h3>
+                <p>الإنفرتر ده جهاز بياخد كهرباء ثابتة (مثلاً ٣ فاز 380V 50Hz) ويحولها لـ <strong>كهرباء متغيرة</strong> في التردد والجهد</p>
+                <p>يعني تقدر تخلي الموتور يدور بـ <strong>سرعة بطيئة جداً</strong> أو <strong>سرعة عالية</strong> حسب ما تريد</p>
+                <p>بدل ما الموتور يشتغل بس على سرعة واحدة (مثلاً 1450 لفة في الدقيقة)، تقدر تتحكم فيه من 0 لحد 3000 لفة</p>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">2</span> لية نستخدم الإنفرتر؟</h3>
+                <div class="success">
+                    <p><strong>✅ توفير الكهرباء:</strong> لما تشغل طلمبة مياه أو مروحة على سرعة منخفضة، بتكون بتستهلك كهرباء أقل (توفير يصل لـ 60%)</p>
+                </div>
+                <div class="success">
+                    <p><strong>✅ حماية الموتور:</strong> الإنفرتر بيحمي الموتور من التيار العالي وقت البداية، والحمل الزائد، وارتفاع أو انخفاض الفولت</p>
+                </div>
+                <div class="success">
+                    <p><strong>✅ التحكم الدقيق:</strong> تقدر تحط سرعة محددة بالظبط، وتغير السرعة ببطء أو بسرعة حسب اللي تحتاجه</p>
+                </div>
+                <div class="success">
+                    <p><strong>✅ عكس اتجاه الدوران</strong> من غير ما تغير أسلاك الموتور</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔌 الجزء الثاني: التوصيلات الأساسية (مهم جداً)</h2>
+            
+            <div class="warning">
+                <p><strong>⚠️ تنبيه هام:</strong> قبل أي توصيل، تأكد من فصل الكهرباء تماماً!</p>
+            </div>
+            
+            <div class="diagram">
+                <h3>١. توصيل الكهرباء والموتور (3 فاز):</h3>
+                <div class="code-box">
+                    من لوحة الكهرباء:    إلى الإنفرتر:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;R  --------------->  R<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;S  --------------->  S<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;T  --------------->  T<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Earth ------------>  ⏚ (الأرضي)<br><br>
+                    من الإنفرتر:        إلى الموتور:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;U  --------------->  U<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;V  --------------->  V<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;W  --------------->  W
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">2</span> ⚡ مهم جداً: ممكن تشغله على 2 فاز كمان!</h3>
+                
+                <h4>توصيل 2 فاز بدل 3 فاز:</h4>
+                <div class="code-box">
+                    من لوحة 2 فاز:        إلى الإنفرتر:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Phase 1 ------> R<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Phase 2 ------> S<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;----------------> T (اتركه فاضي)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Earth ---------> ⏚
+                </div>
+                
+                <div class="note">
+                    <p><strong>💡 ملاحظة مهمة:</strong> على 2 فاز، قدرة الإنفرتر بتكون حوالي 60% من قدرته الأصلية</p>
+                    <p><strong>مثال:</strong> إنفرتر 3KW هيقدر يعطي 1.8-2KW فقط على 2 فاز</p>
+                </div>
+                
+                <h4>الإعدادات المطلوبة للتشغيل على 2 فاز:</h4>
+                <div class="parameter">
+                    <p><code>A8.02</code> - Fault Masking Selection 2</p>
+                    <p>حط القيمة <strong>2</strong> (لتعطيل حماية فقدان الطور)</p>
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">3</span> توصيل البوش بوتن (الزرّات):</h3>
+                <p>الإنفرتر عنده 4 مداخل رقمية: <code>X1</code>, <code>X2</code>, <code>X3</code>, <code>X4</code></p>
+                <p>عنده كمان طرف <code>COM</code> (كومون)</p>
+                
+                <h4>طريقة التوصيل البسيطة:</h4>
+                <div class="code-box">
+                    # توصيل زر التشغيل:<br>
+                    طرف من الزر ------> X1<br>
+                    الطرف التاني -----> COM<br><br>
+                    # توصيل زر الإيقاف:<br>
+                    طرف من الزر ------> X2<br>
+                    الطرف التاني -----> COM
+                </div>
+                
+                <h4>لو عايز توصّل 4 أزرار:</h4>
+                <div class="code-box">
+                    X1 = تشغيل/إيقاف (RUN/STOP)<br>
+                    X2 = عكسي (REVERSE)<br>
+                    X3 = سرعة متوسطة<br>
+                    X4 = سرعة عالية<br>
+                    COM = مشترك لجميع الأزرار
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ الجزء الثالث: البرمجة خطوة خطوة</h2>
+            
+            <div class="step-box">
+                <h3><span class="step-number">1</span> الخطوة ١: أدخل على وضع البرمجة</h3>
+                <p>١. شغل الإنفرتر (ساعة الكبس تكون ظاهرة)</p>
+                <p>٢. اضغط على زر <strong>PROG</strong> أو <strong>MODE</strong> اللي على الشاشة</p>
+                <p>٣. هتظهرلك أرقام زي <code>A0.00</code> - ده معناه إنك دخلت وضع البرمجة</p>
+                <p>٤. استخدم ▲ و ▼ للتنقل بين الباراميترات</p>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">2</span> الخطوة ٢: إعدادات التشغيل الأساسية</h3>
+                
+                <div class="parameter">
+                    <h4>١. مصدر أمر التشغيل (منين هيجيله أمر التشغيل؟)</h4>
+                    <p><code>A0.01</code> - اختيار مصدر أمر التشغيل</p>
+                    <ul>
+                        <li><strong>خيار 0:</strong> التشغيل من الشاشة نفسها (زر RUN على الإنفرتر)</li>
+                        <li><strong>خيار 2:</strong> التشغيل من الطرفيات (البوش بوتن) ✅ <strong>اللي احنا عايزينه</strong></li>
+                        <li><strong>خيار 1:</strong> من الكمبيوتر أو PLC</li>
+                    </ul>
+                    <p><span class="badge">مهم</span> اضغط ENT بعد التغيير</p>
+                </div>
+                
+                <div class="parameter">
+                    <h4>٢. مصدر السرعة (منين هيجيله قيمة السرعة؟)</h4>
+                    <p><code>A0.02</code> - اختيار مصدر السرعة</p>
+                    <ul>
+                        <li><strong>خيار 0:</strong> السرعة ثابتة من A0.03</li>
+                        <li><strong>خيار 1:</strong> من بوتنشيوميتر (مقاومة متغيرة) ✅ <strong>لو عندك بوتنشيو</strong></li>
+                        <li><strong>خيار 3:</strong> من PLC أو مودباس</li>
+                        <li><strong>خيار 4:</strong> من البانل (لوحة التحكم)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">3</span> الخطوة ٣: تحديد وظائف الأزرار (البوش بوتن)</h3>
+                
+                <div class="parameter">
+                    <h4>١. وظيفة X1 (الزر الأول):</h4>
+                    <p><code>A6.00</code> - وظيفة الطرف X1</p>
+                    <ul>
+                        <li><strong>خيار 1:</strong> تشغيل/إيقاف (RUN/STOP) ✅ <strong>اللي احنا عايزينه</strong></li>
+                        <li>خيار 2: تشغيل عكسي</li>
+                        <li>خيار 3: إعادة ضبط (RESET)</li>
+                        <li>خيار 4: سرعة متوسطة 1</li>
+                        <li>خيار 5: سرعة عالية 1</li>
+                    </ul>
+                </div>
+                
+                <div class="parameter">
+                    <h4>٢. وظيفة X2 (الزر الثاني):</h4>
+                    <p><code>A6.01</code> - وظيفة الطرف X2</p>
+                    <ul>
+                        <li><strong>خيار 2:</strong> تشغيل عكسي (REVERSE) ✅ <strong>لو عايز تعكس الدوران</strong></li>
+                        <li>خيار 0: بدون وظيفة (لو مش محتاج عكسي)</li>
+                        <li>خيار 4: سرعة متوسطة 2</li>
+                        <li>خيار 8: جري متعدد الخطوات</li>
+                    </ul>
+                </div>
+                
+                <div class="parameter">
+                    <h4>٣. وظيفة X3 و X4 (لو عندك 4 أزرار):</h4>
+                    <p><code>A6.02</code> - وظيفة الطرف X3</p>
+                    <p><code>A6.03</code> - وظيفة الطرف X4</p>
+                    <p>الخيارات: 4 لسرعة متوسطة، 5 لسرعة عالية، 6 لزيادة السرعة، 7 لتقليل السرعة</p>
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">4</span> الخطوة ٤: ضبط السرعات</h3>
+                
+                <div class="parameter">
+                    <h4>١. السرعة الأساسية:</h4>
+                    <p><code>A0.03</code> - تحديد السرعة الأساسية (Hz)</p>
+                    <p>ده المكان اللي تحدد فيه السرعة الافتراضية</p>
+                    <p>مثلاً: لو عايز السرعة تكون 40 هرتز (سرعة متوسطة)، حط القيمة <strong>40.00</strong></p>
+                    <p><span class="badge">نطاق</span> من 0.00 إلى 300.00 هرتز</p>
+                </div>
+                
+                <div class="parameter">
+                    <h4>٢. السرعات المتعددة (لو عندك 4 أزرار):</h4>
+                    <p><code>A5.00</code> - السرعة لـ X3 (السرعة المتوسطة)</p>
+                    <p>حط فيها قيمة، مثلاً <strong>30.00 هرتز</strong></p>
+                    <p><code>A5.01</code> - السرعة لـ X4 (السرعة العالية)</p>
+                    <p>حط فيها قيمة، مثلاً <strong>50.00 هرتز</strong></p>
+                </div>
+                
+                <div class="parameter">
+                    <h4>٣. الحد الأقصى والأدنى للسرعة:</h4>
+                    <p><code>A0.10</code> - الحد الأعلى للتردد (Upper Limit)</p>
+                    <p>حط أقصى سرعة مسموحة، مثلاً <strong>50.00 هرتز</strong></p>
+                    <p><code>A0.11</code> - الحد الأدنى للتردد (Lower Limit)</p>
+                    <p>حط أقل سرعة مسموحة، مثلاً <strong>10.00 هرتز</strong></p>
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">5</span> الخطوة ٥: التسارع والتباطؤ (زي الفرامل في العربية)</h3>
+                
+                <div class="parameter">
+                    <h4>١. وقت التسارع (زي ما ترفع رجلك من الفرامل):</h4>
+                    <p><code>b2.04</code> - Acceleration Time (وقت التسارع)</p>
+                    <p>القيمة الافتراضية ممكن تكون 10.00 ثانية</p>
+                    <ul>
+                        <li>لو عايز الموتور يبدأ ببطء: زود القيمة (20.00 أو 30.00)</li>
+                        <li>لو عايزه يبدأ بسرعة: قلل القيمة (5.00 أو 2.00)</li>
+                    </ul>
+                </div>
+                
+                <div class="parameter">
+                    <h4>٢. وقت التباطؤ (زي ما تضغط على الفرامل):</h4>
+                    <p><code>b2.06</code> - Deceleration Time (وقت التباطؤ)</p>
+                    <p>نفس الفكرة: قيمة كبيرة = يوقف ببطء، قيمة صغيرة = يوقف بسرعة</p>
+                    <p><span class="badge">مهم</span> لو عندك فرامل ديناميكية، خلي وقت التباطؤ أطول</p>
+                </div>
+            </div>
+            
+            <div class="note">
+                <p><strong>💡 ملاحظة مهمة:</strong> بعد ما تعدل أي باراميتر، اضغط على زر <strong>ENT</strong> عشان تحفظ التغيير، وإلا هيرجع للقيمة القديمة لما تخرج!</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 الجزء الرابع: الربط مع PLC (المحترفين)</h2>
+            
+            <div class="step-box">
+                <h3><span class="step-number">1</span> الطريقة ١: الربط عن طريق الأسلاك (Digital Input)</h3>
+                
+                <h4>التوصيل:</h4>
+                <div class="code-box">
+                    من PLC:           إلى الإنفرتر:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Output 1 -----> X1 (لتشغيل/إيقاف)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Output 2 -----> X2 (للعكسي)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Output 3 -----> X3 (للسرعة المتوسطة)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;COM ------> COM (الطرف المشترك)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;+24V -----> +24V (لو محتاج)
+                </div>
+                
+                <div class="parameter">
+                    <p><strong>مميزات الطريقة:</strong></p>
+                    <ul>
+                        <li>سهلة وبسيطة</li>
+                        <li>مش محتاج برمجة معقدة في PLC</li>
+                        <li>مناسبة للمشاريع الصغيرة</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">2</span> الطريقة ٢: الربط عن طريق المودباس (RS485) ✅ <strong>الأفضل والأحترف</strong></h3>
+                
+                <h4>١. التوصيل:</h4>
+                <p>- خد كابل شبكة (UTP) أو سلكين مجدول</p>
+                <p>- <strong>من PLC</strong>: طرفي RS485 (+ و -)</p>
+                <p>- <strong>إلى الإنفرتر</strong>: نفس الطرفين في A+ و B-</p>
+                <div class="code-box">
+                    PLC (RS485+) ------> A+ (في الإنفرتر)<br>
+                    PLC (RS485-) ------> B- (في الإنفرتر)<br>
+                    الأرضي (GND) ------> ⏚ (لو موجود)
+                </div>
+                
+                <h4>٢. إعدادات الإنفرتر:</h4>
+                <div class="parameter">
+                    <p><code>b3.00</code> - Communication Configuration</p>
+                    <ul>
+                        <li><strong>الخانة الأولى (وحدات):</strong> Baud Rate
+                            <ul>
+                                <li>0: 4800 BPS</li>
+                                <li>1: 9600 BPS ✅ <strong>الأكثر استخداماً</strong></li>
+                                <li>2: 19200 BPS</li>
+                            </ul>
+                        </li>
+                        <li><strong>الخانة الثانية (عشرات):</strong> Data Format
+                            <ul>
+                                <li>0: 1-8-2-N format, RTU ✅ <strong>الافتراضي</strong></li>
+                                <li>1: 1-8-1-E format, RTU</li>
+                                <li>2: 1-8-1-O format, RTU</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p><strong>القيمة النهائية:</strong> 001 (واحد واحد)</p>
+                </div>
+                
+                <div class="parameter">
+                    <p><code>b3.01</code> - Local Address (عنوان الإنفرتر)</p>
+                    <p>حط رقم من 1 إلى 127، مثلاً <strong>1</strong></p>
+                    <p><span class="badge">تحذير</strong> العنوان 0 بيكون للبث العام (Broadcast)</span></p>
+                </div>
+                
+                <div class="parameter">
+                    <p><code>b3.02</code> - Communication Timeout (وقت الانتظار)</p>
+                    <p>لو الاتصال انقطع، بعد كام ثانية يعمل Fault</p>
+                    <p>القيمة الافتراضية: 0.0 (مشغل الحماية)</p>
+                    <p>أنصح بـ <strong>2.0</strong> أو <strong>5.0</strong> ثانية</p>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <h4>٣. الأوامر اللي تقدر تبعتلها من PLC عبر المودباس:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الأمر</th>
+                            <th>العنوان</th>
+                            <th>القيمة</th>
+                            <th>الوصف</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>تشغيل (RUN)</td>
+                            <td>0001</td>
+                            <td>1</td>
+                            <td>يبدأ الموتور في الدوران للأمام</td>
+                        </tr>
+                        <tr>
+                            <td>إيقاف (STOP)</td>
+                            <td>0001</td>
+                            <td>0</td>
+                            <td>يوقف الموتور</td>
+                        </tr>
+                        <tr>
+                            <td>تشغيل عكسي</td>
+                            <td>0001</td>
+                            <td>2</td>
+                            <td>يبدأ الموتور في الدوران للخلف</td>
+                        </tr>
+                        <tr>
+                            <td>ضبط السرعة</td>
+                            <td>0002</td>
+                            <td>0-10000</td>
+                            <td>0 = 0%، 5000 = 50%، 10000 = 100% سرعة</td>
+                        </tr>
+                        <tr>
+                            <td>قراءة السرعة</td>
+                            <td>0003</td>
+                            <td>قراءة فقط</td>
+                            <td>بقرأ السرعة الحالية (0-10000)</td>
+                        </tr>
+                        <tr>
+                            <td>قراءة التيار</td>
+                            <td>0004</td>
+                            <td>قراءة فقط</td>
+                            <td>بقرأ التيار الحالي (0.1A)</td>
+                        </tr>
+                        <tr>
+                            <td>إعادة ضبط Fault</td>
+                            <td>0005</td>
+                            <td>1</td>
+                            <td>بيرفع أي خطأ (Fault) ظاهر</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="note">
+                <p><strong>🔧 مثال عملي:</strong> عايز تشغل الموتور من PLC وتتحكم في سرعته:</p>
+                <div class="code-box">
+                    1. أرسل للعنوان 0001 القيمة 1 (تشغيل)<br>
+                    2. أرسل للعنوان 0002 القيمة 5000 (50% سرعة)<br>
+                    3. بعد 10 ثواني، أرسل للعنوان 0002 القيمة 8000 (80% سرعة)<br>
+                    4. للإيقاف، أرسل للعنوان 0001 القيمة 0
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>⚠️ الجزء الخامس: المشاكل والحلول (Troubleshooting)</h2>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الخطأ</th>
+                            <th>السبب المحتمل</th>
+                            <th>الحل</th>
+                            <th>الباراميتر</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge">E013</span> Drive Overload</td>
+                            <td>- حمولة زائدة على الإنفرتر<br>- تيار عالي</td>
+                            <td>1. قلل الحمل<br>2. زود b0.12 (تيار الحماية)<br>3. شغل تبريد إضافي</td>
+                            <td>b0.12, b2.05</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge">E014</span> Motor Overload</td>
+                            <td>- موتور بيتحمل أكثر من طاقته<br>- تبريد غير كافي</td>
+                            <td>1. راجع بيانات الموتور في b0<br>2. زود b0.12<br>3. تأكد من مراوح التبريد</td>
+                            <td>b0.00-b0.05</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge">E015</span> External Fault</td>
+                            <td>- عطل في دائرة خارجية<br>- سينسور أو حد أمان</td>
+                            <td>1. تأكد من التوصيلات الخارجية<br>2. شوف إن كان في حد أمان مظغوط</td>
+                            <td>A6.00-A6.03</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge">E018</span> Input Phase Loss</td>
+                            <td>- فقدان أحد الفازات<br>- توصيل 2 فاز بدون تعديل الإعدادات</td>
+                            <td>1. تأكد من الفازات الثلاثة<br>2. لو 2 فاز، حط A8.02 = 2</td>
+                            <td>A8.02</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge">E020</span> System Interference</td>
+                            <td>- تشويش كهربي<br>- أسلاك مش مجدولة</td>
+                            <td>1. استخدم أسلاك مجدولة<br>2. ضع فيلتر EMI<br>3. أبعد عن مصادر التشويش</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>الموتور مش بيبدأ</td>
+                            <td>- A0.01 مش مضبوط<br>- A6.00 مش مضبوط<br>- في Fault</td>
+                            <td>1. تأكد من A0.01 = 2<br>2. تأكد من A6.00 = 1<br>3. امسح أي أخطاء</td>
+                            <td>A0.01, A6.00</td>
+                        </tr>
+                        <tr>
+                            <td>الموتور بيرتج</td>
+                            <td>- تردد الموجة الحاملة عالي<br>- إعدادات V/F مش مناسبة</td>
+                            <td>1. قلل b2.00 من 6.0 لـ 4.0<br>2. عدل b1.00-b1.06<br>3. زود b1.07 شوية</td>
+                            <td>b2.00, b1.07</td>
+                        </tr>
+                        <tr>
+                            <td>صوت طنين عالي</td>
+                            <td>- تردد الموجة الحامل في المدى المسموع<br>- رنين ميكانيكي</td>
+                            <td>1. غير b2.00 لـ 8.0 أو 10.0<br>2. تأكد من تثبيت الموتور<br>3. استخدم كاوتش عزل</td>
+                            <td>b2.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="warning">
+                <p><strong>🚨 تحذير أمان:</strong> قبل أي تعديل في البرمجة، تأكد من:</p>
+                <p>1. فصل الكهرباء عن الإنفرتر أولاً، أو على الأقل تأكد من أن الموتور متوقف</p>
+                <p>2. استخدام أدوات معزولة</p>
+                <p>3. وجود شخص آخر معاك في المكان</p>
+                <p>4. معرفة مكان قاطع الكهرباء الرئيسي</p>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">!</span> طريقة مسح الأخطاء (Fault Reset):</h3>
+                <p>١. لما يظهر خطأ على الشاشة، اقرأ رقمه</p>
+                <p>٢. ابحث عنه في الجدول فوق</p>
+                <p>٣. صحح المشكلة</p>
+                <p>٤. امسح الخطأ بواحد من:</p>
+                <ul>
+                    <li>اضغط على <strong>STOP/RESET</strong> على البانل</li>
+                    <li>أو أرسل أمر Reset من PLC عبر المودباس (0005 = 1)</li>
+                    <li>أو أوصل X مبرمج ك Reset (خيار 3 في A6.xx)</li>
+                    <li>أو افصل الكهرباء وأعدها</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 الجزء السادس: نصائح عملية واحترافية</h2>
+            
+            <div class="step-box">
+                <h3><span class="step-number">1</span> قبل ما تشغل أول مرة (إلزامي):</h3>
+                <div class="parameter">
+                    <p><code>b0.00</code> - Rated Power (قدرة الموتور)</p>
+                    <p>أدخل القدرة بالظبط زي ما مكتوبة على لوحة الموتور (KW)</p>
+                    <p>مثال: 2.2KW, 4KW, 7.5KW, إلخ</p>
+                </div>
+                <div class="parameter">
+                    <p><code>b0.02</code> - Rated Current (تيار الموتور)</p>
+                    <p>أدخل التيار بالظبط زي ما مكتوب على لوحة الموتور (A)</p>
+                    <p>مثال: 4.8A, 8.2A, 15A, إلخ</p>
+                </div>
+                <div class="parameter">
+                    <p><code>b0.03</code> - Rated Frequency (التردد الأصلي)</p>
+                    <p>عادةً 50.00 هرتز (في مصر والسعودية)</p>
+                    <p>في أمريكا: 60.00 هرتز</p>
+                </div>
+                <div class="parameter">
+                    <p><code>b0.05</code> - Rated Speed (سرعة الموتور)</p>
+                    <p>أدخل السرعة المقننة (RPM)</p>
+                    <p>مثال: 1440 RPM, 2900 RPM, إلخ</p>
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">2</span> لو الموتور بيتسخن (مهم جداً):</h3>
+                <div class="parameter">
+                    <p><code>b1.07</code> - Manual Torque Boost (تعزيز العزم اليدوي)</p>
+                    <p>القيمة الافتراضية: 10.0%</p>
+                    <ul>
+                        <li>لو الموتور بيتسخن: قللها لـ <strong>5.0%</strong></li>
+                        <li>لو الموتور بيرجع (يعني مش بيدور): زودها لـ <strong>15.0%</strong></li>
+                        <li>في الشتاء ممكن تزود شوية، في الصيف قلل شوية</li>
+                    </ul>
+                </div>
+                
+                <div class="parameter">
+                    <p><code>b2.15</code> - Fan Control (تحكم المروحة)</p>
+                    <p>0: تشتغل المروحة لما يحتاج تبريد (Auto)</p>
+                    <p>1: المروحة تشتغل طول الوقت</p>
+                    <p><strong>أنصح بـ 0</strong> عشان توفر في استهلاك المروحة</p>
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">3</span> لو في ضوضاء أو طنين:</h3>
+                <div class="parameter">
+                    <p><code>b2.00</code> - Carrier Wave Frequency (تردد الموجة الحاملة)</p>
+                    <p>القيمة الافتراضية 6.0 كيلوهرتز</p>
+                    <ul>
+                        <li>قللها لـ 4.0 أو 3.0 ← تقلل الضوضاء، لكن ممكن تسخن الإنفرتر شوية</li>
+                        <li>زودها لـ 8.0 أو 10.0 ← تقلل السخونة، لكن ممكن تزود الضوضاء</li>
+                        <li><strong>التوازن الأمثل:</strong> 4.0-6.0 كيلوهرتز</li>
+                    </ul>
+                </div>
+                
+                <div class="parameter">
+                    <p><code>b0.13</code> - Oscillation Inhibition Coefficient (كبت الاهتزاز)</p>
+                    <p>القيمة الافتراضية: 10</p>
+                    <p>لو في اهتزاز، زود القيمة لـ <strong>20 أو 30</strong></p>
+                    <p>بس متزودهاش عن 50</p>
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">4</span> الحماية من التيار العالي:</h3>
+                <div class="parameter">
+                    <p><code>b2.05</code> - Auto Current Limiting Threshold (حد التيار التلقائي)</p>
+                    <p>القيمة: 150.0% من تيار الموتور</p>
+                    <p><span class="badge">مهم</span> <strong>متزودهاش عن 200.0%</strong> عشان متخربش الموتور</p>
+                    <p>لو عندك حمل متغير، حطه 180.0%</p>
+                </div>
+                
+                <div class="parameter">
+                    <p><code>A8.04</code> - Auto Reset Times (عدد مرات الإعادة التلقائية)</p>
+                    <p>القيمة: 0 (ما فيش إعادة تلقائية)</p>
+                    <p>لو محتاج: حط 3 أو 5 (هيحاول يعيد التشغيل 3 أو 5 مرات لو حصل خطأ)</p>
+                    <p><code>A8.05</code> - Reset Interval (الوقت بين كل إعادة)</p>
+                    <p>القيمة: 5.0 ثواني (مناسبة)</p>
+                </div>
+            </div>
+            
+            <div class="note">
+                <p><strong>💎 نصيحة ذهبية:</strong> سجل إعداداتك بعد ما تظبطها!</p>
+                <p>١. روح على <code>b4.04</code> (Parameter Copy)</p>
+                <p>٢. حط القيمة 1 (Upload) عشان تخزن الإعدادات في الكنترول</p>
+                <p>٣. أو اكتب الإعدادات في ورقة واحتفظ بيها!</p>
+            </div>
+        </div>
+        
+        <div class="contact-box">
+            <h3>📞 محتاج مساعدة في برمجة الإنفرترات؟</h3>
+            <p>أنا <strong>أحمد ثروت محمود</strong>، متخصص في برمجة وتوصيل الإنفرترات والتحكم الصناعي</p>
+            <p>خبرة أكثر من 10 سنوات في مجال التحكم الآلي والكهرباء الصناعية</p>
+            
+            <div class="success" style="text-align: right; margin: 15px 0; background: rgba(255,255,255,0.1); color: white; border-color: #3498db;">
+                <p>✅ تركيب وبرمجة الإنفرترات في المصانع والورش</p>
+                <p>✅ ربط الإنفرترات مع PLC وأنظمة السكادا وال HMI</p>
+                <p>✅ حل مشاكل التشغيل والأعطال الفنية</p>
+                <p>✅ تدريب الفنيين والمهندسين على البرمجة والصيانة</p>
+                <p>✅ تصميم أنظمة تحكم كاملة من الألف للياء</p>
+                <p>✅ استشارات فنية لمشاريع التحكم الصناعي</p>
+            </div>
+            
+            <p><strong>العملاء اللي قادر أخدمهم:</strong></p>
+            <p>🏭 المصانع | 🏗️ شركات المقاولات | 🌾 المزارع والري | 🏥 المستشفيات | 🏨 المباني التجارية</p>
+            <p>🏢 الشركات الصناعية | 🚰 محطات المياه | 🌬️ أنظمة التكييف والتهوية</p>
+            
+            <div style="margin-top: 25px;">
+                <a href="https://wa.me/201144577670" class="btn btn-whatsapp" target="_blank">
+                    📱 واتساب مباشر: 01144577670
+                </a>
+                
+                <a href="tel:01144577670" class="btn" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    📞 اتصل بي: 01144577670
+                </a>
+                
+                <a href="#" class="btn btn-linkedin">
+                    💼 LinkedIn: أحمد ثروت محمود
+                </a>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <p><strong>خدمات إضافية أقدمها:</strong></p>
+                <p>• برمجة PLC (سيمنز، شنايدر، AB، Mitsubishi)</p>
+                <p>• تصميم وبرمجة شاشات HMI و SCADA</p>
+                <p>• صيانة لوحات الكهرباء والتحكم</p>
+                <p>• تدريب عملي على الأنظمة الصناعية</p>
+                <p>• إعداد كتيبات تشغيل وصيانة</p>
+            </div>
+            
+            <div style="margin-top: 20px; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                <p><strong>📅 متاح للعمل:</strong> جميع محافظات مصر | العمل عن بُعد | زيارات موقع</p>
+                <p><strong>⏰ وقت الاستجابة:</strong> خلال 24 ساعة</p>
+                <p><strong>💵 الأسعار:</strong> تنافسية ومناسبة مع ضمان العمل</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 أحمد ثروت محمود - جميع الحقوق محفوظة</p>
+            <p>هذا الشرح معد للمهندسين والفنيين والعاملين في مجال التحكم الآلي والكهرباء الصناعية</p>
+            <p style="font-size: 0.9rem; color: #95a5a6; margin-top: 10px;">
+                تم إعداد هذا الدليل بناءً على كتالوج Kinco CV20 الإنجليزي مع ترجمة وتفسير عملي للاستخدام في السوق المصري والعربي
+            </p>
+            <p style="font-size: 0.8rem; color: #bdc3c7; margin-top: 5px;">
+                آخر تحديث: ديسمبر 2023 | الإصدار: 2.0 | للاستخدام التعليمي والمهني
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // إضافة تفاعلية بسيطة
+        document.addEventListener('DOMContentLoaded', function() {
+            // إضافة تأثير النقر على الباراميترات
+            const parameters = document.querySelectorAll('.parameter');
+            parameters.forEach(param => {
+                param.addEventListener('click', function() {
+                    this.style.transform = 'translateX(-5px)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateX(0)';
+                    }, 300);
+                });
+            });
+            
+            // إضافة تأثير للمفاتيح
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    if(this.href.includes('whatsapp')) {
+                        alert('سيتم فتح الواتساب... استخدم رقم 01144577670 للتواصل');
+                    }
+                });
+            });
+            
+            // إضافة رسالة ترحيب
+            console.log('مرحباً بك في دليل إنفرتر Kinco CV20 - إعداد أحمد ثروت محمود');
+            
+            // تأثير عند التمرير
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('.section');
+                sections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if(sectionTop < windowHeight * 0.75) {
+                        section.style.opacity = '1';
+                        section.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            // تهيئة أولية للعناصر
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.5s, transform 0.5s';
+            });
+            
+            // تشغيل تأثير التمرير فور التحميل
+            setTimeout(() => {
+                window.dispatchEvent(new Event('scroll'));
+            }, 100);
+        });
+    </script>
+</body>
+</html>
