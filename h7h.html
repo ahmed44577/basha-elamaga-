@@ -1,140 +1,93 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>… جاري التحميل …</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>رسالة سرية</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      height: 100vh;
       background: #000;
-      color: #00ff00;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 1.8rem;
-      overflow: hidden;
+      color: #0f0;
+      font-family: 'Courier New', monospace;
+      font-size: 28px;
+      text-align: center;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-align: center;
+      overflow: hidden;
+      cursor: none;
     }
-    #container {
-      max-width: 90%;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-    }
-    #message {
-      opacity: 0;
-      transition: opacity 1s;
-    }
-    .blink {
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-    .red { color: #ff0044; }
-    .yellow { color: #ffff00; }
+    h1 { color: #ff0044; font-size: 60px; margin-bottom: 30px; }
+    #text { white-space: pre-wrap; line-height: 1.6; max-width: 90%; }
+    .blink { animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
   </style>
 </head>
 <body>
 
-  <div id="container">
-    <div id="message"></div>
-    <p class="blink" style="margin-top: 2rem; font-size: 1.2rem;">جاري الاتصال...</p>
-  </div>
+  <h1 class="blink">اهلاً...</h1>
+  <div id="text"></div>
 
-  <audio id="beep" preload="auto">
-    <source src="https://assets.mixkit.co/active_storage/sfx/2570/2570-preview.mp3" type="audio/mpeg">
+  <!-- صوت مخيف (heartbeat + glitch) -->
+  <audio id="scary" loop>
+    <source src="https://www.soundjay.com/human/heartbeat-01.mp3" type="audio/mpeg">
+    <source src="https://www.soundjay.com/buttons/beep-07.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // محاولة الدخول في وضع ملء الشاشة
-    function goFullscreen() {
-      const elem = document.documentElement;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen().catch(() => {});
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
-      }
+    // Fullscreen تلقائي (يعمل على معظم المتصفحات)
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(() => {});
     }
 
-    // اهتزاز الجهاز إذا كان مدعومًا
-    function vibrate() {
-      if ("vibrate" in navigator) {
-        navigator.vibrate([100, 50, 100]);
-      }
+    // اهتزاز الجهاز (لو على موبايل)
+    if (navigator.vibrate) {
+      navigator.vibrate([200, 100, 200, 100, 300]);
     }
 
-    const fullText = 
-`مرحبا يا ${getDeviceHint()}،
+    // تشغيل الصوت (بعض المتصفحات تحتاج تفاعل أول، بس هنحاول)
+    const audio = document.getElementById("scary");
+    audio.volume = 0.6;
+    audio.play().catch(() => {});
 
-لقد تم الوصول إلى جهازك.
+    // تأخير 2 ثانية قبل الكتابة
+    setTimeout(() => {
+      const message = 
+`مرحبا يا وحش...
 
-بياناتك ممكن تكون معايا دلوقتي...
+بياناتك ممكن تكون معايا دلوقتي
+كل حاجة في جهازك أنا شايفها
 
-لو عايزها رجّعها، كلمني على:
+لو عاوزها ترجعلك
+كلمني على الرقم ده فورًا:
+
 01144577670
 
-… لا تحاول إغلاق الصفحة …`;
+😈`;
 
-    let i = 0;
-    const element = document.getElementById("message");
-    const beep = document.getElementById("beep");
+      let i = 0;
+      const textElement = document.getElementById("text");
 
-    // تأخير بسيط قبل البداية
-    setTimeout(() => {
-      goFullscreen();
-      element.style.opacity = "1";
-      typeWriter();
-    }, 1500);
-
-    function typeWriter() {
-      if (i < fullText.length) {
-        let char = fullText.charAt(i);
-        element.innerHTML += char;
-
-        // تغيير لون عشوائي أحيانًا
-        if (Math.random() < 0.15) {
-          const colors = ["red", "yellow", "#00ff00", "#00ffff"];
-          element.lastChild.className = colors[Math.floor(Math.random() * colors.length)];
+      function type() {
+        if (i < message.length) {
+          textElement.innerHTML += message.charAt(i);
+          i++;
+          // سرعة كتابة واقعية (بين 50-150 مللي ثانية)
+          const delay = Math.random() * 100 + 50;
+          setTimeout(type, delay);
+        } else {
+          // بعد ما يخلّص: يظهر الرقم باللون الأحمر الكبير
+          textElement.innerHTML += "<br><br><span style='color:#ff0044; font-size:60px; font-weight:bold;'>01144577670</span>";
         }
-
-        // صوت beep خفيف مع كل حرف (مش كل مرة عشان ما يبقاش مزعج جدًا)
-        if (Math.random() < 0.4) {
-          beep.currentTime = 0;
-          beep.play().catch(() => {}); // تجاهل أخطاء التشغيل
-        }
-
-        // اهتزاز خفيف كل فترة
-        if (i % 12 === 0) vibrate();
-
-        i++;
-        // سرعة كتابة متفاوتة
-        const delay = Math.random() < 0.2 ? 180 : 60;
-        setTimeout(typeWriter, delay);
-      } else {
-        // بعد الانتهاء: جعل النص يومض
-        element.classList.add("blink");
       }
-    }
 
-    // محاولة تخمين نوع الجهاز بشكل بسيط
-    function getDeviceHint() {
-      const ua = navigator.userAgent.toLowerCase();
-      if (/android/.test(ua)) return "صاحب الأندرويد";
-      if (/iphone|ipad|ipod/.test(ua)) return "صاحب الآيفون";
-      if (/windows/.test(ua)) return "صاحب الويندوز";
-      if (/mac/.test(ua)) return "صاحب الماك";
-      return "زائر";
-    }
-
-    // إعادة المحاولة للدخول fullscreen عند التفاعل الأول
-    document.addEventListener("click", goFullscreen, { once: true });
+      type();
+    }, 2000); // تأخير 2 ثانية
   </script>
+
 </body>
 </html>
