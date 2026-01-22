@@ -19,44 +19,86 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      cursor: none;
     }
-    h1 { color: #ff0044; font-size: 60px; margin-bottom: 30px; }
+    #startBtn {
+      padding: 20px 50px;
+      font-size: 30px;
+      background: #ff0044;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 40px;
+    }
+    #content { display: none; }
+    h1 { color: #ff0044; font-size: 60px; }
     #text { white-space: pre-wrap; line-height: 1.6; max-width: 90%; }
-    .blink { animation: blink 1s infinite; }
-    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      10% { transform: translate(-1px, -2px) rotate(-1deg); }
+      20% { transform: translate(-3px, 0px) rotate(1deg); }
+      30% { transform: translate(3px, 2px) rotate(0deg); }
+      40% { transform: translate(1px, -1px) rotate(1deg); }
+      50% { transform: translate(-1px, 2px) rotate(-1deg); }
+      60% { transform: translate(-3px, 1px) rotate(0deg); }
+      70% { transform: translate(3px, 1px) rotate(-1deg); }
+      80% { transform: translate(-1px, -1px) rotate(1deg); }
+      90% { transform: translate(1px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+    .shake { animation: shake 0.8s infinite; }
   </style>
 </head>
 <body>
 
-  <h1 class="blink">اهلاً...</h1>
-  <div id="text"></div>
+  <div id="startScreen">
+    <h1>اضغط هنا</h1>
+    <button id="startBtn">افتح الرسالة</button>
+  </div>
 
-  <!-- صوت مخيف (heartbeat + glitch) -->
+  <div id="content">
+    <h1 class="blink">اهلاً...</h1>
+    <div id="text"></div>
+  </div>
+
   <audio id="scary" loop>
     <source src="https://www.soundjay.com/human/heartbeat-01.mp3" type="audio/mpeg">
-    <source src="https://www.soundjay.com/buttons/beep-07.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // Fullscreen تلقائي (يعمل على معظم المتصفحات)
-    if (document.documentElement.requestFullscreen) {
-      document.documentElement.requestFullscreen().catch(() => {});
-    }
-
-    // اهتزاز الجهاز (لو على موبايل)
-    if (navigator.vibrate) {
-      navigator.vibrate([200, 100, 200, 100, 300]);
-    }
-
-    // تشغيل الصوت (بعض المتصفحات تحتاج تفاعل أول، بس هنحاول)
+    const startBtn = document.getElementById("startBtn");
+    const startScreen = document.getElementById("startScreen");
+    const content = document.getElementById("content");
     const audio = document.getElementById("scary");
-    audio.volume = 0.6;
-    audio.play().catch(() => {});
+    const textElement = document.getElementById("text");
 
-    // تأخير 2 ثانية قبل الكتابة
-    setTimeout(() => {
-      const message = 
+    startBtn.onclick = () => {
+      startScreen.style.display = "none";
+      content.style.display = "flex";
+      content.style.flexDirection = "column";
+      content.style.justifyContent = "center";
+      content.style.alignItems = "center";
+
+      // Fullscreen
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+
+      // اهتزاز بعد التفاعل (هيشتغل دلوقتي)
+      if (navigator.vibrate) {
+        navigator.vibrate([200, 100, 200, 100, 300]);
+      }
+
+      // صوت
+      audio.volume = 0.6;
+      audio.play().catch(() => {});
+
+      // رجفة CSS بديل لو الـ vibrate مش شغال
+      document.body.classList.add("shake");
+
+      // الكتابة بعد تأخير صغير
+      setTimeout(() => {
+        const message = 
 `مرحبا يا وحش...
 
 بياناتك ممكن تكون معايا دلوقتي
@@ -69,24 +111,22 @@
 
 😈`;
 
-      let i = 0;
-      const textElement = document.getElementById("text");
-
-      function type() {
-        if (i < message.length) {
-          textElement.innerHTML += message.charAt(i);
-          i++;
-          // سرعة كتابة واقعية (بين 50-150 مللي ثانية)
-          const delay = Math.random() * 100 + 50;
-          setTimeout(type, delay);
-        } else {
-          // بعد ما يخلّص: يظهر الرقم باللون الأحمر الكبير
-          textElement.innerHTML += "<br><br><span style='color:#ff0044; font-size:60px; font-weight:bold;'>01144577670</span>";
+        let i = 0;
+        function type() {
+          if (i < message.length) {
+            textElement.innerHTML += message.charAt(i);
+            i++;
+            const delay = Math.random() * 100 + 50;
+            setTimeout(type, delay);
+          } else {
+            textElement.innerHTML += "<br><br><span style='color:#ff0044; font-size:60px; font-weight:bold;'>01144577670</span>";
+            // وقف الرجفة بعد الكتابة
+            setTimeout(() => document.body.classList.remove("shake"), 5000);
+          }
         }
-      }
-
-      type();
-    }, 2000); // تأخير 2 ثانية
+        type();
+      }, 1500);
+    };
   </script>
 
 </body>
