@@ -1,49 +1,140 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>تحميل تلقائي</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>… جاري التحميل …</title>
   <style>
-    body { font-family: Tahoma; text-align: center; background: #000; color: #0f0; padding: 100px; }
-    button { padding: 20px 40px; font-size: 24px; background: #ff0044; border: none; color: white; cursor: pointer; }
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: #000;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.8rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    #container {
+      max-width: 90%;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    #message {
+      opacity: 0;
+      transition: opacity 1s;
+    }
+    .blink {
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .red { color: #ff0044; }
+    .yellow { color: #ffff00; }
   </style>
 </head>
 <body>
 
-  <h1>اضغط الزرار عشان تشوف الرسالة</h1>
-  <button onclick="triggerDownload()">اضغط هنا</button>
+  <div id="container">
+    <div id="message"></div>
+    <p class="blink" style="margin-top: 2rem; font-size: 1.2rem;">جاري الاتصال...</p>
+  </div>
+
+  <audio id="beep" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2570/2570-preview.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    function triggerDownload() {
-      const device = getRoughDeviceName();
-      const text = 
-`مرحبا ${device}،
-بياناتك ممكن تكون معايا،
-لو عاوزها كلمني على الرقم 01144577670`;
-
-      const blob = new Blob([text], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'رسالة_مهمة.txt';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      alert("تم تحميل ملف! افتحه عشان تشوف الرسالة كاملة.");
+    // محاولة الدخول في وضع ملء الشاشة
+    function goFullscreen() {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(() => {});
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      }
     }
 
-    function getRoughDeviceName() {
-      const ua = navigator.userAgent;
-      if (/android/i.test(ua)) return "جهاز أندرويد";
-      if (/iPhone|iPad|iPod/.test(ua)) return "جهاز آيفون/آيباد";
-      if (/Windows/.test(ua)) return "كمبيوتر ويندوز";
-      if (/Mac/.test(ua)) return "ماك";
+    // اهتزاز الجهاز إذا كان مدعومًا
+    function vibrate() {
+      if ("vibrate" in navigator) {
+        navigator.vibrate([100, 50, 100]);
+      }
+    }
+
+    const fullText = 
+`مرحبا يا ${getDeviceHint()}،
+
+لقد تم الوصول إلى جهازك.
+
+بياناتك ممكن تكون معايا دلوقتي...
+
+لو عايزها رجّعها، كلمني على:
+01144577670
+
+… لا تحاول إغلاق الصفحة …`;
+
+    let i = 0;
+    const element = document.getElementById("message");
+    const beep = document.getElementById("beep");
+
+    // تأخير بسيط قبل البداية
+    setTimeout(() => {
+      goFullscreen();
+      element.style.opacity = "1";
+      typeWriter();
+    }, 1500);
+
+    function typeWriter() {
+      if (i < fullText.length) {
+        let char = fullText.charAt(i);
+        element.innerHTML += char;
+
+        // تغيير لون عشوائي أحيانًا
+        if (Math.random() < 0.15) {
+          const colors = ["red", "yellow", "#00ff00", "#00ffff"];
+          element.lastChild.className = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // صوت beep خفيف مع كل حرف (مش كل مرة عشان ما يبقاش مزعج جدًا)
+        if (Math.random() < 0.4) {
+          beep.currentTime = 0;
+          beep.play().catch(() => {}); // تجاهل أخطاء التشغيل
+        }
+
+        // اهتزاز خفيف كل فترة
+        if (i % 12 === 0) vibrate();
+
+        i++;
+        // سرعة كتابة متفاوتة
+        const delay = Math.random() < 0.2 ? 180 : 60;
+        setTimeout(typeWriter, delay);
+      } else {
+        // بعد الانتهاء: جعل النص يومض
+        element.classList.add("blink");
+      }
+    }
+
+    // محاولة تخمين نوع الجهاز بشكل بسيط
+    function getDeviceHint() {
+      const ua = navigator.userAgent.toLowerCase();
+      if (/android/.test(ua)) return "صاحب الأندرويد";
+      if (/iphone|ipad|ipod/.test(ua)) return "صاحب الآيفون";
+      if (/windows/.test(ua)) return "صاحب الويندوز";
+      if (/mac/.test(ua)) return "صاحب الماك";
       return "زائر";
     }
-  </script>
 
+    // إعادة المحاولة للدخول fullscreen عند التفاعل الأول
+    document.addEventListener("click", goFullscreen, { once: true });
+  </script>
 </body>
 </html>
